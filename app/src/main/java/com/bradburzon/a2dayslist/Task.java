@@ -1,30 +1,35 @@
 package com.bradburzon.a2dayslist;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
+import java.util.Objects;
 
 public class Task {
-    private final String taskId;
+
+    private String taskId;
     private String name;
     private Date expiresIn;
-    private boolean isCompleted;
+    private Date remindDate;
+    private int index;
+    private TaskStatus taskStatus;
 
-    public Task(String name) {
-        this.taskId = UUID.randomUUID().toString();
-        this.name = name;
-        this.expiresIn = calculateExpiryDate(2); // Sets expiresIn to 2 days from now.
-        this.isCompleted = false;
+    public Task() {
     }
 
-    private Date calculateExpiryDate(int daysToAdd) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, daysToAdd);
-        return calendar.getTime();
+    public Task(String taskId, String name, Date expiresIn, Date remindDate, int index, TaskStatus taskStatus) {
+        this.taskId = taskId;
+        this.name = name;
+        this.expiresIn = expiresIn;
+        this.remindDate = remindDate;
+        this.index = index;
+        this.taskStatus = taskStatus;
     }
 
     public String getTaskId() {
         return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
     }
 
     public String getName() {
@@ -39,15 +44,56 @@ public class Task {
         return expiresIn;
     }
 
-    public boolean getIsCompleted() {
-        return isCompleted;
+    public void setExpiresIn(Date expiresIn) {
+        this.expiresIn = expiresIn;
     }
 
-    public void setIsCompleted(boolean isCompleted) {
-        this.isCompleted = isCompleted;
+    public Date getRemindDate() {
+        return remindDate;
     }
 
-    public boolean isExpired() {
-        return new Date().after(this.expiresIn);
+    public void setRemindDate(Date remindDate) {
+        this.remindDate = remindDate;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public TaskStatus getTaskStatus() {
+        return taskStatus;
+    }
+
+    public void setTaskStatus(TaskStatus status) {
+        taskStatus = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return index == task.index && Objects.equals(taskId, task.taskId) && Objects.equals(name, task.name) && Objects.equals(expiresIn, task.expiresIn) && Objects.equals(remindDate, task.remindDate) && taskStatus == task.taskStatus;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(taskId, name, expiresIn, remindDate, index, taskStatus);
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "taskId='" + taskId + '\'' +
+                ", name='" + name + '\'' +
+                ", expiresIn=" + expiresIn +
+                ", remindDate=" + remindDate +
+                ", index=" + index +
+                ", taskStatus=" + taskStatus +
+                '}';
     }
 }
