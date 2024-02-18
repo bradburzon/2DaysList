@@ -22,7 +22,7 @@ public class LocalTaskStorageTest {
     }
 
     @Test
-    public void testList() {
+    public void givenNonEmptyStartingDataWhenListIsCalledThenReturnStartingData() {
         TaskStorage storage = new LocalTaskStorage(startingData);
 
         List<Task> list = storage.list();
@@ -31,8 +31,7 @@ public class LocalTaskStorageTest {
     }
 
     @Test
-    public void addList_shouldAddToList() {
-        startingData.put("1", new Task("1", "name", date, date, 1, TaskStatus.CREATED));
+    public void givenNewTaskWhenAddIsCalledThenStoreTheTask() {
         TaskStorage storage = new LocalTaskStorage(new HashMap<String, Task>());
 
         storage.add(new Task("1", "name", date, date, 1, TaskStatus.CREATED));
@@ -42,7 +41,7 @@ public class LocalTaskStorageTest {
     }
 
     @Test
-    public void delete_shouldDeleteFromList() {
+    public void givenNonEmptyStartingDataWhenDeleteIsCalledThenRemoveTaskFromStorage() {
         TaskStorage storage = new LocalTaskStorage(startingData);
 
         storage.delete("1");
@@ -52,7 +51,7 @@ public class LocalTaskStorageTest {
     }
 
     @Test
-    public void getById_shouldReturnTask() {
+    public void givenNonEmptyStartingDataWhenGetByIdIsCalledThenReturnMatchingTask() {
         TaskStorage storage = new LocalTaskStorage(startingData);
 
         Task actual = storage.getById("1");;
@@ -61,7 +60,7 @@ public class LocalTaskStorageTest {
     }
 
     @Test
-    public void update_shouldUpdateTask() {
+    public void givenNonEmptyStartingDataWhenUpdateIsCalledThenUpdateMatchingTask() {
         TaskStorage storage = new LocalTaskStorage(startingData);
 
         storage.update("1", new Task("1", "updatedName", date, date, 1, TaskStatus.CREATED));
