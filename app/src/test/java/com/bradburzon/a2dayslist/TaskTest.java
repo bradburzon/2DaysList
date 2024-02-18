@@ -1,14 +1,11 @@
 package com.bradburzon.a2dayslist;
 
 import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.Date;
 
 public class TaskTest {
-
 
     private Task task;
 
@@ -16,7 +13,6 @@ public class TaskTest {
     public void setUp() throws Exception {
         task = new Task();
     }
-
 
     @Test
     public void constructorTest() {
@@ -115,5 +111,4 @@ public class TaskTest {
 
         assertEquals("Task{taskId='id', name='name', expiresIn=Wed Dec 31 16:00:02 PST 1969, remindDate=Wed Dec 31 16:00:02 PST 1969, index=1, taskStatus=CREATED}", task.toString());
     }
-
 }

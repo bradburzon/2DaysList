@@ -7,23 +7,29 @@ import java.util.Map;
 public class LocalTaskStorage implements TaskStorage {
 
     private Map<String,Task> data;
+
     public LocalTaskStorage(Map<String, Task> startingData) {
         this.data = startingData;
     }
 
     @Override
     public void add(Task task) {
-
+        data.put(task.getTaskId(), task);
     }
 
     @Override
     public void delete(String taskId) {
-
+        data.remove(taskId);
     }
 
     @Override
-    public void update(String taskID, Task task) {
+    public void update(String taskId, Task task) {
+        data.put(taskId, task);
+    }
 
+    @Override
+    public Task getById(String taskId) {
+        return data.get(taskId);
     }
 
     @Override

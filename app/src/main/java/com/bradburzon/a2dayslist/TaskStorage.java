@@ -5,8 +5,8 @@ import java.util.List;
 public interface TaskStorage {
     void add(Task task);
     void delete(String taskId);
-    void update(String taskID, Task task);
+    void update(String taskId, Task task);
+    Task getById(String taskId);
     List<Task> list();
-
 }
 
