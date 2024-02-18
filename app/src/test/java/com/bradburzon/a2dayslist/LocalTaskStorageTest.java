@@ -5,20 +5,17 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
 public class LocalTaskStorageTest {
     private Map<String, Task> startingData;
-    private Date date;
 
     @Before
     public void setUp() throws Exception {
         startingData = new HashMap<>();
-        date = new Date();
-        startingData.put("1", new Task("1", "name", date, date, 1, TaskStatus.CREATED));
+        startingData.put("1", new Task("1", "name", 1, TaskStatus.CREATED));
     }
 
     @Test
@@ -34,7 +31,7 @@ public class LocalTaskStorageTest {
     public void givenNewTaskWhenAddIsCalledThenStoreTheTask() {
         TaskStorage storage = new LocalTaskStorage(new HashMap<String, Task>());
 
-        storage.add(new Task("1", "name", date, date, 1, TaskStatus.CREATED));
+        storage.add(new Task("1", "name", 1, TaskStatus.CREATED));
         List<Task> list = storage.list();
 
         assertEquals(new ArrayList<>(startingData.values()), list);
@@ -56,16 +53,16 @@ public class LocalTaskStorageTest {
 
         Task actual = storage.getById("1");;
 
-        assertEquals( new Task("1", "name", date, date, 1, TaskStatus.CREATED), actual);
+        assertEquals( new Task("1", "name", 1, TaskStatus.CREATED), actual);
     }
 
     @Test
     public void givenNonEmptyStartingDataWhenUpdateIsCalledThenUpdateMatchingTask() {
         TaskStorage storage = new LocalTaskStorage(startingData);
 
-        storage.update("1", new Task("1", "updatedName", date, date, 1, TaskStatus.CREATED));
+        storage.update("1", new Task("1", "updatedName", 1, TaskStatus.CREATED));
         Task actual = storage.getById("1");
 
-        assertEquals( new Task("1", "updatedName", date, date, 1, TaskStatus.CREATED), actual);
+        assertEquals( new Task("1", "updatedName", 1, TaskStatus.CREATED), actual);
     }
 }

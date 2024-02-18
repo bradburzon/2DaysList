@@ -8,4 +8,7 @@ public class TaskManager {
         this.storage = storage;
     }
 
+    public void markAsComplete(String taskId) {
+        storage.getById(taskId).setTaskStatus(TaskStatus.COMPLETED);
+    }
 }
