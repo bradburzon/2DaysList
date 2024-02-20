@@ -9,9 +9,9 @@ public class TaskSorterTest {
     private static final Task TASK_1 = new Task("1", "Name", 1, TaskStatus.CREATED) ;
     private static final Task TASK_2 = new Task("2", "Name", 2, TaskStatus.CREATED);
     private static final Task TASK_3 = new Task("3", "Zed", 3, TaskStatus.CREATED);
+
     @Test
     public void givenTwoTaskWithSameNameWhenCompareIsCalledShouldReturn0() {
-        TaskSorter taskSorter = new TaskSorter();
         TaskSorter.NameSort nameSorter = new TaskSorter.NameSort();
 
         int actual = nameSorter.compare(TASK_1, TASK_2);
@@ -21,7 +21,6 @@ public class TaskSorterTest {
 
     @Test
     public void givenTwoTaskWithDifferentNameWhenCompareIsCalledShouldReturnNonZero() {
-        TaskSorter taskSorter = new TaskSorter();
         TaskSorter.NameSort nameSorter = new TaskSorter.NameSort();
 
         int actual = nameSorter.compare(TASK_1, TASK_3);

@@ -1,5 +1,7 @@
 package com.bradburzon.a2dayslist;
 
+import androidx.annotation.NonNull;
+
 import java.util.Objects;
 
 public class Task {
@@ -64,6 +66,7 @@ public class Task {
         return Objects.hash(taskId, name, index, taskStatus);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Task{" +

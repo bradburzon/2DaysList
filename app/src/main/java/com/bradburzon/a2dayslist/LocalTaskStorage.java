@@ -1,7 +1,6 @@
 package com.bradburzon.a2dayslist;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -37,19 +36,19 @@ public class LocalTaskStorage implements TaskStorage {
 
     @Override
     public List<Task> list() {
-        return new ArrayList<Task>(data.values());
+        return new ArrayList<>(data.values());
     }
 
     @Override
-    public void sort(Comparator taskComparator) {
+    public void sort(Comparator<Task> taskComparator) {
         List<Task> sortedTasks = new ArrayList<>(data.values());
         System.out.println(sortedTasks);
-        Collections.sort(sortedTasks, taskComparator);
+        sortedTasks.sort(taskComparator);
         System.out.println(sortedTasks);
         HashMap<String, Task> sortedData = new HashMap<>();
         int i = 0;
         for(Task task : sortedTasks){
-            sortedData.put(i + "", task);
+            sortedData.put(Integer.toString(i), task);
             i++;
         }
         data = sortedData;

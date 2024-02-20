@@ -1,6 +1,5 @@
 package com.bradburzon.a2dayslist;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -53,5 +52,4 @@ public class TaskManagerImpl implements TaskManager {
     public void sort(Comparator<Task> taskComparator) {
         storage.sort(taskComparator);
     }
-
 }
