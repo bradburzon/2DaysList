@@ -1,21 +1,21 @@
 package com.bradburzon.a2dayslist;
 
-import java.util.UUID;
+import java.util.Comparator;
+import java.util.List;
 
-public class TaskManager {
+public interface TaskManager {
 
-    private TaskStorage storage;
+    List<Task> listTasks();
 
-    public TaskManager(TaskStorage storage) {
-        this.storage = storage;
-    }
+    void markAsComplete(String taskId);
 
-    public void markAsComplete(String taskId) {
-        storage.getById(taskId).setTaskStatus(TaskStatus.COMPLETED);
-    }
+    void addTask(String taskName);
 
-    public void addTask(String taskName) {
-        String taskId = UUID.randomUUID().toString();
-        storage.add(new Task(taskId, taskName, storage.list().size(), TaskStatus.CREATED));
-    }
+    Task getById(String taskId);
+
+    void update(String taskId, Task task);
+
+    Task delete(String taskId);
+
+    void sort(Comparator<Task> comparator);
 }
