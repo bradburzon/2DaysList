@@ -14,7 +14,7 @@ public class LocalTaskStorageTest {
     private Map<String, Task> startingData;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         startingData = new HashMap<>();
         startingData.put("1", new Task("1", "name", 1, TaskStatus.CREATED));
     }
@@ -30,7 +30,7 @@ public class LocalTaskStorageTest {
 
     @Test
     public void givenNewTaskWhenAddIsCalledThenStoreTheTask() {
-        TaskStorage storage = new LocalTaskStorage(new HashMap<String, Task>());
+        TaskStorage storage = new LocalTaskStorage(new HashMap<>());
 
         storage.add(new Task("1", "name", 1, TaskStatus.CREATED));
         List<Task> list = storage.list();
@@ -53,7 +53,7 @@ public class LocalTaskStorageTest {
     public void givenNonEmptyStartingDataWhenGetByIdIsCalledThenReturnMatchingTask() {
         TaskStorage storage = new LocalTaskStorage(startingData);
 
-        Task actual = storage.getById("1");;
+        Task actual = storage.getById("1");
 
         assertEquals( new Task("1", "name", 1, TaskStatus.CREATED), actual);
     }
@@ -66,17 +66,5 @@ public class LocalTaskStorageTest {
         Task actual = storage.getById("1");
 
         assertEquals( new Task("1", "updatedName", 1, TaskStatus.CREATED), actual);
-    }
-
-    @Test
-    public void givenNonEmptyStartingDataWhenSortIsCalledThenSortTheData() {
-        TaskStorage storage = new LocalTaskStorage(startingData);
-        storage.add(new Task("1", "Zame", 1, TaskStatus.CREATED));
-        storage.add(new Task("2", "Name", 2, TaskStatus.CREATED));
-
-        storage.sort(new TaskSorter.NameSort());
-        Task actual = storage.list().get(0);
-
-        assertEquals( new Task("2", "Name", 2, TaskStatus.CREATED), actual);
     }
 }

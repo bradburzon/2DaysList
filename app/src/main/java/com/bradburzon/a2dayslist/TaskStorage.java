@@ -1,6 +1,5 @@
 package com.bradburzon.a2dayslist;
 
-import java.util.Comparator;
 import java.util.List;
 
 public interface TaskStorage {
@@ -14,7 +13,5 @@ public interface TaskStorage {
     Task getById(String taskId);
 
     List<Task> list();
-
-    void sort(Comparator<Task> taskComparator);
 }
 
