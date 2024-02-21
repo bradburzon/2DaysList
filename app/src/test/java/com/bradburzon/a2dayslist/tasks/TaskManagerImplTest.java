@@ -1,8 +1,11 @@
-package com.bradburzon.a2dayslist;
+package com.bradburzon.a2dayslist.tasks;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+
+import com.bradburzon.a2dayslist.settings.SortStrategyFactory;
+import com.bradburzon.a2dayslist.settings.SortStrategyType;
 
 import org.junit.Before;
 import org.junit.Test;

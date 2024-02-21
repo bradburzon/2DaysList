@@ -1,4 +1,6 @@
-package com.bradburzon.a2dayslist;
+package com.bradburzon.a2dayslist.settings;
+
+import com.bradburzon.a2dayslist.tasks.Task;
 
 import java.util.Comparator;
 

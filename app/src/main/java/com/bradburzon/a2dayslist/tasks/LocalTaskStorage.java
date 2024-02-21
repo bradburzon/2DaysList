@@ -1,4 +1,4 @@
-package com.bradburzon.a2dayslist;
+package com.bradburzon.a2dayslist.tasks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class LocalTaskStorage implements TaskStorage {
 
-    private Map<String,Task> data;
+    private final Map<String, Task> data;
 
     public LocalTaskStorage(Map<String, Task> startingData) {
         this.data = startingData;

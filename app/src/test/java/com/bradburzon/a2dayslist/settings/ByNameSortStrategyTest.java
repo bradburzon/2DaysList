@@ -1,6 +1,10 @@
-package com.bradburzon.a2dayslist;
+package com.bradburzon.a2dayslist.settings;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import com.bradburzon.a2dayslist.tasks.Task;
+import com.bradburzon.a2dayslist.tasks.TaskStatus;
 
 import org.junit.Before;
 import org.junit.Test;

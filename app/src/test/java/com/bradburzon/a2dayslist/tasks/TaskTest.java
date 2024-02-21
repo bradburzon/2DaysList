@@ -1,6 +1,8 @@
-package com.bradburzon.a2dayslist;
+package com.bradburzon.a2dayslist.tasks;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,7 +11,7 @@ public class TaskTest {
     private Task task;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         task = new Task();
     }
 

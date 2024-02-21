@@ -1,4 +1,4 @@
-package com.bradburzon.a2dayslist;
+package com.bradburzon.a2dayslist.tasks;
 
 import static org.junit.Assert.assertEquals;
 
