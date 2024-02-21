@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class TaskManagerImpl implements TaskManager {
 
-    private TaskStorage storage;
+    private final TaskStorage storage;
 
     public static TaskManager createTaskManager() {
         return new TaskManagerImpl(new LocalTaskStorage(new HashMap<>()));
@@ -20,6 +20,13 @@ public class TaskManagerImpl implements TaskManager {
     @Override
     public List<Task> listTasks() {
         return storage.list();
+    }
+
+    @Override
+    public List<Task> listTasks(Comparator<Task> taskComparator) {
+        List<Task> list = storage.list();
+        list.sort(taskComparator);
+        return list;
     }
 
     @Override
@@ -46,10 +53,5 @@ public class TaskManagerImpl implements TaskManager {
     @Override
     public Task delete(String taskId) {
         return storage.delete(taskId);
-    }
-
-    @Override
-    public void sort(Comparator<Task> taskComparator) {
-        storage.sort(taskComparator);
     }
 }

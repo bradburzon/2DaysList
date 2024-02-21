@@ -7,6 +7,8 @@ public interface TaskManager {
 
     List<Task> listTasks();
 
+    List<Task> listTasks(Comparator<Task> taskComparator);
+
     void markAsComplete(String taskId);
 
     void addTask(String taskName);
@@ -16,6 +18,4 @@ public interface TaskManager {
     void update(String taskId, Task task);
 
     Task delete(String taskId);
-
-    void sort(Comparator<Task> comparator);
 }

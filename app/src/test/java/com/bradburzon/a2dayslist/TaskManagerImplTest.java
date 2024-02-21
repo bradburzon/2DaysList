@@ -15,6 +15,8 @@ public class TaskManagerImplTest {
 
     private TaskStorage storage;
     private TaskManager taskManager;
+    private static final Task TASK_1= new Task("1", "Task 1", 1, TaskStatus.CREATED);
+    private static final Task TASK_2= new Task("2", "Task 2", 2, TaskStatus.CREATED);
 
     @Before
     public void setUp() {
@@ -33,7 +35,7 @@ public class TaskManagerImplTest {
     @Test
     public void givenTaskIdWhenMarkAsCompleteIsCalledThenMarkTheTaskCompleteInStorage() {
         Map<String, Task> startingData = new HashMap<>();
-        startingData.put("1", new Task("1", "name", 1, TaskStatus.CREATED));
+        startingData.put("1", TASK_1);
         storage = new LocalTaskStorage(startingData);
         taskManager = new TaskManagerImpl(storage);
 
@@ -81,54 +83,53 @@ public class TaskManagerImplTest {
     @Test
     public void givenTaskIdWhenGetByIdIsCalledThenReturnMatchingTask() {
         Map<String, Task> startingData = new HashMap<>();
-        startingData.put("1", new Task("1", "name", 1, TaskStatus.CREATED));
+        startingData.put("1", TASK_1);
         storage = new LocalTaskStorage(startingData);
         taskManager = new TaskManagerImpl(storage);
 
         Task actual = taskManager.getById("1");
 
-        assertEquals(new Task("1", "name", 1, TaskStatus.CREATED), actual);
+        assertEquals(TASK_1, actual);
     }
 
     @Test
     public void givenTaskIdAndUpdatedTaskWhenUpdateIsCalledThenUpdateTheMatchingTask() {
         Map<String, Task> startingData = new HashMap<>();
-        startingData.put("1", new Task("1", "name", 1, TaskStatus.CREATED));
+        startingData.put("1", TASK_1);
         storage = new LocalTaskStorage(startingData);
         taskManager = new TaskManagerImpl(storage);
 
-        taskManager.update("1",  new Task("1", "new Name", 1, TaskStatus.CREATED));
+        taskManager.update("1",  new Task("1", "New Task 1", 1, TaskStatus.CREATED));
         Task actual = taskManager.getById("1");
 
-        assertEquals(new Task("1", "new Name", 1, TaskStatus.CREATED), actual);
+        assertEquals(new Task("1", "New Task 1", 1, TaskStatus.CREATED), actual);
     }
 
     @Test
     public void givenTaskIdWhenDeleteIsCalledThenDeleteTheMatchingTaskFromList() {
         Map<String, Task> startingData = new HashMap<>();
-        startingData.put("1", new Task("1", "name", 1, TaskStatus.CREATED));
+        startingData.put("1", TASK_1);
         storage = new LocalTaskStorage(startingData);
         taskManager = new TaskManagerImpl(storage);
 
         Task actual =  taskManager.delete("1");
 
         assertEquals(0, taskManager.listTasks().size());
-        assertEquals(new Task("1", "name", 1, TaskStatus.CREATED), actual);
+        assertEquals(TASK_1, actual);
     }
 
     @Test
-    public void givenComparatorWhenSortIsCalledThenSortTheListOfTask() {
+    public void givenTaskComparatorWhenListTasksIsCalledThenReturnSortedList() {
         Map<String, Task> startingData = new HashMap<>();
-        startingData.put("1", new Task("1", "Zask 1", 1, TaskStatus.CREATED));
-        startingData.put("3", new Task("3", "Aask 1", 2, TaskStatus.CREATED));
-        startingData.put("2", new Task("2", "Biking", 3, TaskStatus.CREATED));
+        startingData.put("1", TASK_2);
+        startingData.put("2", TASK_1);
         storage = new LocalTaskStorage(startingData);
         taskManager = new TaskManagerImpl(storage);
-        List<Task> tasks = taskManager.listTasks();
 
-        taskManager.sort(new TaskSorter.NameSort());
-        List<Task> actual = taskManager.listTasks();
+        List<Task> list = taskManager.listTasks(SortStrategyFactory.create(SortStrategyType.BY_NAME));
 
-        assertNotEquals(tasks, actual);
+        assertEquals(2, taskManager.listTasks().size());
+        assertEquals(TASK_1, list.get(0));
+        assertEquals( TASK_2, list.get(1));
     }
 }
