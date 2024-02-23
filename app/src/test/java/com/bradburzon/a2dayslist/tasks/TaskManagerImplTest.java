@@ -23,7 +23,7 @@ public class TaskManagerImplTest {
 
     @Before
     public void setUp() {
-        storage = new LocalTaskStorage(new HashMap<>());
+        storage = new MapTaskStorage(new HashMap<>());
         taskManager = new TaskManagerImpl(storage);
     }
 
@@ -39,7 +39,7 @@ public class TaskManagerImplTest {
     public void givenTaskIdWhenMarkAsCompleteIsCalledThenMarkTheTaskCompleteInStorage() {
         Map<String, Task> startingData = new HashMap<>();
         startingData.put("1", TASK_1);
-        storage = new LocalTaskStorage(startingData);
+        storage = new MapTaskStorage(startingData);
         taskManager = new TaskManagerImpl(storage);
 
         taskManager.markAsComplete("1");
@@ -87,7 +87,7 @@ public class TaskManagerImplTest {
     public void givenTaskIdWhenGetByIdIsCalledThenReturnMatchingTask() {
         Map<String, Task> startingData = new HashMap<>();
         startingData.put("1", TASK_1);
-        storage = new LocalTaskStorage(startingData);
+        storage = new MapTaskStorage(startingData);
         taskManager = new TaskManagerImpl(storage);
 
         Task actual = taskManager.getById("1");
@@ -99,7 +99,7 @@ public class TaskManagerImplTest {
     public void givenTaskIdAndUpdatedTaskWhenUpdateIsCalledThenUpdateTheMatchingTask() {
         Map<String, Task> startingData = new HashMap<>();
         startingData.put("1", TASK_1);
-        storage = new LocalTaskStorage(startingData);
+        storage = new MapTaskStorage(startingData);
         taskManager = new TaskManagerImpl(storage);
 
         taskManager.update("1",  new Task("1", "New Task 1", 1, TaskStatus.CREATED));
@@ -112,7 +112,7 @@ public class TaskManagerImplTest {
     public void givenTaskIdWhenDeleteIsCalledThenDeleteTheMatchingTaskFromList() {
         Map<String, Task> startingData = new HashMap<>();
         startingData.put("1", TASK_1);
-        storage = new LocalTaskStorage(startingData);
+        storage = new MapTaskStorage(startingData);
         taskManager = new TaskManagerImpl(storage);
 
         Task actual =  taskManager.delete("1");
@@ -126,7 +126,7 @@ public class TaskManagerImplTest {
         Map<String, Task> startingData = new HashMap<>();
         startingData.put("1", TASK_2);
         startingData.put("2", TASK_1);
-        storage = new LocalTaskStorage(startingData);
+        storage = new MapTaskStorage(startingData);
         taskManager = new TaskManagerImpl(storage);
 
         List<Task> list = taskManager.listTasks(SortStrategyFactory.create(SortStrategyType.BY_NAME));

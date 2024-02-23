@@ -10,7 +10,7 @@ public class TaskManagerImpl implements TaskManager {
     private final TaskStorage storage;
 
     public static TaskManager createTaskManager() {
-        return new TaskManagerImpl(new LocalTaskStorage(new HashMap<>()));
+        return new TaskManagerImpl(new MapTaskStorage(new HashMap<>()));
     }
 
     public TaskManagerImpl(TaskStorage storage) {
