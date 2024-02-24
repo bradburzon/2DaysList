@@ -1,70 +1,107 @@
 package com.bradburzon.a2dayslist.tasks;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
-import java.util.Map;
 
 public class LocalTaskStorageTest {
-    private Map<String, Task> startingData;
+
+    private static final Task TASK_1 = new Task("1", "Task 1", 1, TaskStatus.CREATED);
+    private static final Task TASK_2 = new Task("2", "Task 2", 2, TaskStatus.CREATED);
+    private static File tempFile;
+    private static LocalTaskStorage localTaskStorage;
+
+    @BeforeClass
+    public static void setUpClass() throws IOException {
+        tempFile = Files.createTempFile("tasks", ".txt").toFile();
+        localTaskStorage = new LocalTaskStorage(tempFile.getAbsolutePath());
+    }
 
     @Before
-    public void setUp() {
-        startingData = new HashMap<>();
-        startingData.put("1", new Task("1", "name", 1, TaskStatus.CREATED));
+    public void setUp() throws IOException {
+        new FileWriter(tempFile.getAbsolutePath(), false).close();
     }
 
     @Test
-    public void givenNonEmptyStartingDataWhenListIsCalledThenReturnStartingData() {
-        TaskStorage storage = new LocalTaskStorage(startingData);
-
-        List<Task> list = storage.list();
-
-        assertEquals(new ArrayList<>(startingData.values()), list);
+    public void givenEmptyListOfTaskWhenListsIsCalledThenReturnEmptyList() {
+        List<Task> actual = localTaskStorage.list();
+        assertTrue(actual.isEmpty());
     }
 
     @Test
-    public void givenNewTaskWhenAddIsCalledThenStoreTheTask() {
-        TaskStorage storage = new LocalTaskStorage(new HashMap<>());
+    public void givenTaskWhenAddTaskIsCalledThenStoreTask() {
+        localTaskStorage.add(TASK_1);
 
-        storage.add(new Task("1", "name", 1, TaskStatus.CREATED));
-        List<Task> list = storage.list();
+        List<Task> actual = localTaskStorage.list();
+        assertEquals(1, actual.size());
 
-        assertEquals(new ArrayList<>(startingData.values()), list);
+        Task task = actual.get(0);
+        assertEquals(TASK_1.getTaskId(), task.getTaskId());
+        assertEquals(TASK_1.getName(), task.getName());
+        assertEquals(TASK_1.getIndex(), task.getIndex());
+        assertEquals(TASK_1.getTaskStatus(), task.getTaskStatus());
     }
 
     @Test
-    public void givenNonEmptyStartingDataWhenDeleteIsCalledThenRemoveTaskFromStorage() {
-        TaskStorage storage = new LocalTaskStorage(startingData);
+    public void givenMultipleTasksWhenAddTasksIsCalledThenStoreAllTasks() {
+        Task task3 = new Task("3", "Task 3", 3, TaskStatus.CREATED);
+        Task task4 = new Task("4", "Task 4", 4, TaskStatus.CREATED);
 
-        Task actual = storage.delete("1");
-        List<Task> list = storage.list();
+        localTaskStorage.add(TASK_1);
+        localTaskStorage.add(TASK_2);
+        localTaskStorage.add(task3);
+        localTaskStorage.add(task4);
 
-        assertEquals(0, list.size());
-        assertEquals( new Task("1", "name", 1, TaskStatus.CREATED), actual);
+        List<Task> actual = localTaskStorage.list();
+        assertEquals(4, actual.size());
+        assertTrue(actual.contains(TASK_1));
+        assertTrue(actual.contains(TASK_2));
+        assertTrue(actual.contains(task3));
+        assertTrue(actual.contains(task4));
     }
 
     @Test
-    public void givenNonEmptyStartingDataWhenGetByIdIsCalledThenReturnMatchingTask() {
-        TaskStorage storage = new LocalTaskStorage(startingData);
+    public void givenTaskIdWhenGetByIdIsCalledThenReturnMatchingTask() {
+        localTaskStorage.add(TASK_2);
 
-        Task actual = storage.getById("1");
-
-        assertEquals( new Task("1", "name", 1, TaskStatus.CREATED), actual);
+        Task actual = localTaskStorage.getById(TASK_2.getTaskId());
+        assertEquals(TASK_2, actual);
     }
 
     @Test
-    public void givenNonEmptyStartingDataWhenUpdateIsCalledThenUpdateMatchingTask() {
-        TaskStorage storage = new LocalTaskStorage(startingData);
+    public void givenTaskIdWhenDeleteTaskIsCalledThenDeleteAndReturnTask() {
+        localTaskStorage.add(TASK_1);
 
-        storage.update("1", new Task("1", "updatedName", 1, TaskStatus.CREATED));
-        Task actual = storage.getById("1");
+        Task deletedTask = localTaskStorage.delete(TASK_1.getTaskId());
+        assertEquals(TASK_1, deletedTask);
 
-        assertEquals( new Task("1", "updatedName", 1, TaskStatus.CREATED), actual);
+        List<Task> actual = localTaskStorage.list();
+        assertTrue(actual.isEmpty());
+    }
+
+    @Test
+    public void givenTaskIdAndTaskWhenUpdateIsCalledThenUpdateMatchingTask() {
+        localTaskStorage.add(TASK_1);
+
+        Task newTask = new Task(TASK_1.getTaskId(), "Task 3", 3, TaskStatus.CREATED);
+        localTaskStorage.update(TASK_1.getTaskId(), newTask);
+
+        Task actual = localTaskStorage.getById(newTask.getTaskId());
+        assertEquals(newTask, actual);
+    }
+
+    @AfterClass
+    public static void tearDownClass() {
+        tempFile.delete();
     }
 }
