@@ -29,7 +29,7 @@ public class TaskManagerImplTest {
 
     @Test
     public void givenNoStorageWhenCreateTaskManagerIsCalledThenReturnTaskManager() {
-        taskManager = TaskManagerImpl.createTaskManager();
+        taskManager = TaskManagerImpl.createMapTaskManager();
 
         assertNotNull(taskManager);
         assertEquals(TaskManagerImpl.class, taskManager.getClass());
