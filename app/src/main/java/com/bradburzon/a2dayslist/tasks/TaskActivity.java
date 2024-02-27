@@ -2,6 +2,8 @@ package com.bradburzon.a2dayslist.tasks;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -59,9 +61,26 @@ public class TaskActivity extends AppCompatActivity {
 
         EditText taskInput = new EditText(this);
         taskInput.setLayoutParams(new LinearLayout.LayoutParams(
-                0,
+                LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
         taskInput.setHint("Add task here");
+
+// Set input type to text
+        taskInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+
+// Apply a filter to allow only alphanumeric characters and spaces
+        InputFilter filter = (source, start, end, dest, dstart, dend) -> {
+            for (int i = start; i < end; i++) {
+                // Check if the character is a letter, a digit, or a space
+                if (!Character.isLetterOrDigit(source.charAt(i)) && !Character.isSpaceChar(source.charAt(i))) {
+                    return "";
+                }
+            }
+            return null;
+        };
+
+        taskInput.setFilters(new InputFilter[]{filter});
+
 
         Button addButton = new Button(this);
         addButton.setText(R.string.add);
@@ -111,8 +130,6 @@ public class TaskActivity extends AppCompatActivity {
                 } else {
                     task.setTaskStatus(TaskStatus.UNCHANGED);
                 }
-
-                System.out.println(task);
             });
 
             TextView taskTextView = new TextView(this);
