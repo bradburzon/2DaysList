@@ -4,4 +4,7 @@
     <string name="action_add">Add</string>
     <string name="add">Add</string>
     <string name="delete">Delete</string>
+    <string name="renew">RENEW</string>
+    <string name="txtAppTitle">2DaysList</string>
+    <string name="sort_by">Sort By:</string>
 </resources>
