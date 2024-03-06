@@ -21,11 +21,15 @@ public class SettingManager {
         return new SettingManager();
     }
 
-    public Comparator<Task> getSortStrategyType() {
+    public Comparator<Task> createSortStrategyType() {
         return SortStrategyFactory.create(sortStrategyType);
     }
 
     public void setSortStrategyType(SortStrategyType sortStrategyType) {
         SettingManager.sortStrategyType = sortStrategyType;
+    }
+
+    public SortStrategyType getSortStrategyType() {
+        return sortStrategyType;
     }
 }
