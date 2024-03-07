@@ -3,8 +3,11 @@
     <string name="hint_enter_task">Enter Task</string>
     <string name="action_add">Add</string>
     <string name="add">Add</string>
-    <string name="delete">DELETE</string>
-    <string name="renew">RENEW</string>
+    <string name="delete">Delete</string>
+    <string name="renew">Renew</string>
+    <string name="bin">Bin</string>
     <string name="txtAppTitle">2DoList</string>
     <string name="sort_by">Sort By:</string>
+    <string name="add_task_hint">Hint</string>
+    <string name="click_the_green_button_to_add_a_to_do_item">Click the green \'+\' button to add a to do item.</string>
 </resources>

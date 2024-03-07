@@ -42,9 +42,10 @@
             android:id="@+id/sortSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="#000"
+            android:dropDownSelector="@android:drawable/alert_dark_frame"
             android:entries="@array/sort_options"
             android:minHeight="48dp"
-            android:backgroundTint="#000"
             android:paddingTop="12dp"
             android:paddingBottom="12dp" />
     </LinearLayout>
