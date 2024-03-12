@@ -38,11 +38,19 @@ dependencies {
 
     // Unit Testing
     testImplementation ("junit:junit:4.13.2")
+    testImplementation ("androidx.test.ext:junit:1.1.5")
     testImplementation ("org.mockito:mockito-core:4.0.0")
     // Use mockito-inline if you need to mock final classes/methods
     testImplementation ("org.mockito:mockito-inline:3.7.7")
 
-    // Android Instrumented Tests
+    // AndroidJUnitRunner and JUnit Rules
+    androidTestImplementation ("androidx.test:runner:1.5.2")
+    androidTestImplementation ("androidx.test:rules:1.5.0")
+
+    // Assertions
     androidTestImplementation ("androidx.test.ext:junit:1.1.5")
+    // Android Instrumented Tests
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation( "androidx.test.espresso:espresso-contrib:3.5.1")
+
 }

@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/taskAppLayout"
-    android:focusable="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background"
@@ -12,7 +11,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:background="#65EEF3F0"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -26,7 +25,7 @@
             android:gravity="start"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/black"
-            android:textSize="24sp"
+            android:textSize="30sp"
             android:paddingHorizontal="20dp"
             android:text="@string/txtAppTitle" />
 
@@ -36,7 +35,7 @@
             android:layout_height="wrap_content"
             android:text="@string/sort_by"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="24sp" />
 
         <Spinner
             android:id="@+id/sortSpinner"
@@ -53,17 +52,21 @@
     <ScrollView
         android:id="@+id/taskScrollableView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@+id/bottom_bar"
         android:layout_below="@+id/linearLayout"
         android:layout_marginBottom="6dp"
-        android:contentDescription="@string/txtAppTitle">
+        android:fillViewport="true"
+        android:contentDescription="@string/txtAppTitle"
+        android:isScrollContainer="true">
 
         <LinearLayout
             android:id="@+id/scrollTaskView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:clickable="true"
+            android:orientation="vertical"
+            android:focusable="true" />
 
     </ScrollView>
 
@@ -80,11 +83,15 @@
             android:id="@+id/button_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_menu_add"
-            android:contentDescription="@string/appbar_scrolling_view_behavior"
+            app:srcCompat="@android:drawable/ic_input_add"
+            app:maxImageSize="60dp"
+            android:contentDescription="@string/hint_enter_task"
             app:borderWidth="0dp"
-            app:elevation="60dp"
-            app:pressedTranslationZ="12dp" />
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp"
+            app:backgroundTint="#FFFFFF"
+        app:tint="#000000" />
+
     </LinearLayout>
 
 </RelativeLayout>
