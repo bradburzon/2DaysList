@@ -1,15 +1,16 @@
 package com.bradburzon.a2dayslist.tasks;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.bradburzon.a2dayslist.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,11 +28,12 @@ public class TaskInputHelper {
         this.floatingActionButton = floatingActionButton;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public void showTaskInput() {
         LinearLayout layoutContainer = ((TaskActivity)context).findViewById(R.id.bottom_bar);
-        RelativeLayout rootLayout = ((TaskActivity)context).findViewById(R.id.taskAppLayout);
 
-        // Create input layout programmatically as in your addTask method
+
+
         LinearLayout inputLayout = new LinearLayout(context);
         inputLayout.setOrientation(LinearLayout.HORIZONTAL);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -41,13 +43,15 @@ public class TaskInputHelper {
         inputLayout.setBackgroundColor(Color.WHITE);
 
         EditText taskInput = new EditText(context);
-        taskInput.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        LinearLayout.LayoutParams taskInputLayoutParams = new LinearLayout.LayoutParams(
+                0,
+                (int) (55 * context.getResources().getDisplayMetrics().density), 1f);
+        taskInput.setLayoutParams(taskInputLayoutParams);
         taskInput.setHint("Add task here");
-        taskInput.setHintTextColor(Color.LTGRAY);
+        taskInput.setHintTextColor(Color.BLACK);
         taskInput.setTextColor(Color.BLACK);
         taskInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+        taskInput.setMinHeight((int) (50 * context.getResources().getDisplayMetrics().density));
 
         InputFilter filter = (source, start, end, dest, dstart, dend) -> {
             for (int i = start; i < end; i++) {
@@ -61,9 +65,10 @@ public class TaskInputHelper {
 
         Button addButton = new Button(context);
         addButton.setText(R.string.add);
-        addButton.setLayoutParams(new LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
+                (int) (48 * context.getResources().getDisplayMetrics().density));
+        addButton.setLayoutParams(buttonLayoutParams);
         addButton.setOnClickListener(v -> {
             String taskName = taskInput.getText().toString();
             if (!taskName.isEmpty()) {
@@ -78,12 +83,19 @@ public class TaskInputHelper {
         inputLayout.addView(addButton);
         layoutContainer.addView(inputLayout);
         taskInput.requestFocus();
-
-        // Similar functionality to remove the input layout when touching outside
+        LinearLayout rootLayout = ((TaskActivity)context).findViewById(R.id.scrollTaskView);
         rootLayout.setOnTouchListener((v, event) -> {
-            hideInputLayout(inputLayout, layoutContainer);
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                // Get the location of the touch event
+
+                    hideInputLayout(inputLayout, layoutContainer);
+                    v.performClick(); // For accessibility
+                    return true;
+                }
+
             return false;
         });
+
     }
 
     private void hideInputLayout(LinearLayout inputLayout, LinearLayout layoutContainer) {

@@ -29,16 +29,16 @@ public class TaskViewHelper {
         List<Task> trashList = tasks.stream().filter(task -> task.getTaskStatus() == TaskStatus.DELETED).collect(Collectors.toList());
 
         // Add sections for each category with tasks
-        addSectionWithTasks(context, scrollTaskView, "TODAY'S LIST", todayList, Color.BLACK, taskManager, settingManager);
+        addSectionWithTasks(context, scrollTaskView, "TODAY'S LIST", todayList, Color.BLUE, taskManager, settingManager);
         addSectionWithTasks(context, scrollTaskView, "INCOMPLETE", incompleteList, Color.RED, taskManager, settingManager);
-        addSectionWithTasks(context, scrollTaskView, "RECYCLE BIN", trashList, Color.GRAY, taskManager, settingManager);
+        addSectionWithTasks(context, scrollTaskView, "RECYCLE BIN", trashList, Color.BLACK, taskManager, settingManager);
     }
 
     private static void addSectionWithTasks(Context context, LinearLayout scrollTaskView, String sectionTitle, List<Task> tasks, int titleColor, TaskManager taskManager, SettingManager settingManager) {
         if ("TODAY'S LIST".equals(sectionTitle) && tasks.isEmpty()) {
             // Display a temporary message when no tasks are available
             TextView noTaskMessage = new TextView(context);
-            noTaskMessage.setText(R.string.click_the_green_button_to_add_a_to_do_item);
+            noTaskMessage.setText(R.string.click_the_plus_button_to_add_a_to_do_item);
             noTaskMessage.setTextSize(16); // Set your desired text size
             noTaskMessage.setTextColor(Color.BLACK); // Set your desired text color
             int paddingInDp = (int) (16 * context.getResources().getDisplayMetrics().density);
