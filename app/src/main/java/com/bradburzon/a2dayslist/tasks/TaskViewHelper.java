@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class TaskViewHelper {
-//todo change signature to add linear layout
     public static void updateTaskView(Context context, List<Task> tasks, TaskManager taskManager, SettingManager settingManager) {
         LinearLayout scrollTaskView = ((TaskActivity) context).findViewById(R.id.scrollTaskView);
         scrollTaskView.removeAllViews();

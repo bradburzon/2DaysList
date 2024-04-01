@@ -1,8 +1,6 @@
 package com.bradburzon.a2dayslist.tasks;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,20 +8,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import com.bradburzon.a2dayslist.R;
+import com.bradburzon.a2dayslist.date.DateManager;
 import com.bradburzon.a2dayslist.settings.SettingManager;
 import com.bradburzon.a2dayslist.settings.SortStrategyType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-public class TaskActivity extends AppCompatActivity implements WorkScheduler.WorkExecutionCallback {
+public class TaskActivity extends AppCompatActivity {
 
     private static final String TASKS_FILENAME = "tasks.txt";
     private static final String APP_PREFERENCES = "AppPreferences";
@@ -33,62 +29,32 @@ public class TaskActivity extends AppCompatActivity implements WorkScheduler.Wor
     private SettingManager settingManager;
     private FloatingActionButton floatingActionButton;
     private SortStrategyType sortStrategyType;
+    private DateManager dateManager;
+    private MidnightTaskArchivingStrategy midnightTaskArchivingStrategy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
         setupSortSpinner();
         setupFloatingActionButton();
+
+        // Initialize DateManager with the appropriate file path
+        dateManager = new DateManager(getFilesDir() + File.separator + "dateManager.txt");
+
         initializeManagers();
-        // Schedule archiving tasks using WorkManager
-        WorkScheduler.scheduleArchiving(this, this);
-        runTaskIfNeeded(this);
+        runTaskIfNeeded();
     }
 
-    public void updateLastExecutionDate(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        long epochDay;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            epochDay = LocalDate.now().toEpochDay();
-        } else {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, 0);
-            calendar.set(Calendar.MINUTE, 0);
-            calendar.set(Calendar.SECOND, 0);
-            calendar.set(Calendar.MILLISECOND, 0);
+    public void runTaskIfNeeded() {
+        Calendar lastActiveDate = dateManager.getLastActiveDate();
+        Calendar today = Calendar.getInstance();
+        lastActiveDate = dateManager.removeTimeComponents(lastActiveDate);
+        today = dateManager.removeTimeComponents(today);
 
-            epochDay = TimeUnit.MILLISECONDS.toDays(calendar.getTimeInMillis());
-        }
-        editor.putLong("LastExecutionDate", epochDay);
-        editor.apply();
-        WorkScheduler.scheduleArchiving(this, this);
-    }
-
-    public boolean shouldRunTask(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
-        long lastExecutionDay = sharedPreferences.getLong("LastExecutionDate", -1);
-        long today;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            today = LocalDate.now().toEpochDay();
-        } else {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, 0);
-            calendar.set(Calendar.MINUTE, 0);
-            calendar.set(Calendar.SECOND, 0);
-            calendar.set(Calendar.MILLISECOND, 0);
-
-            today = TimeUnit.MILLISECONDS.toDays(calendar.getTimeInMillis());
-        }
-        return lastExecutionDay < today;
-    }
-
-    public void runTaskIfNeeded(Context context) {
-        if (shouldRunTask(context)) {
-            updateLastExecutionDate(context);
-            WorkScheduler.scheduleArchiving(this, this);
+        if (!lastActiveDate.equals(today)) {
+            midnightTaskArchivingStrategy.archiveTasks(taskManager);
+            dateManager.setLastActiveDate(today); // Update last active date
             putListTaskToTaskView();
         }
     }
@@ -98,6 +64,7 @@ public class TaskActivity extends AppCompatActivity implements WorkScheduler.Wor
         taskManager = TaskManagerImpl.createLocalTaskManager(file.getAbsolutePath());
         settingManager = SettingManager.createSettingsManager();
         settingManager.setSortStrategyType(sortStrategyType);
+        midnightTaskArchivingStrategy = new MidnightTaskArchivingStrategy();
     }
 
     private void setupFloatingActionButton() {
@@ -150,12 +117,14 @@ public class TaskActivity extends AppCompatActivity implements WorkScheduler.Wor
     @Override
     protected void onResume() {
         super.onResume();
+        runTaskIfNeeded();
         putListTaskToTaskView();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        runTaskIfNeeded();
         saveSortStrategy();
     }
 
@@ -165,11 +134,5 @@ public class TaskActivity extends AppCompatActivity implements WorkScheduler.Wor
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(SORT_STRATEGY_ORDINAL_KEY, currentSortStrategy.ordinal());
         editor.apply();
-    }
-
-    @Override
-    public void onWorkExecuted() {
-        runTaskIfNeeded(this);
-        putListTaskToTaskView();
     }
 }
