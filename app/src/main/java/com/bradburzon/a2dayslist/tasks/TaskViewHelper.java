@@ -15,7 +15,6 @@ import com.bradburzon.a2dayslist.R;
 import com.bradburzon.a2dayslist.settings.SettingManager;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class TaskViewHelper {
     public static void updateTaskView(Context context, List<Task> tasks, TaskManager taskManager, SettingManager settingManager) {
@@ -23,10 +22,9 @@ public class TaskViewHelper {
         scrollTaskView.removeAllViews();
 
         // Categories based on task status
-        List<Task> todayList = tasks.stream().filter(task -> task.getTaskStatus() != TaskStatus.ARCHIVED && task.getTaskStatus() != TaskStatus.DELETED).collect(Collectors.toList());
-        List<Task> incompleteList = tasks.stream().filter(task -> task.getTaskStatus() == TaskStatus.ARCHIVED).collect(Collectors.toList());
-        List<Task> trashList = tasks.stream().filter(task -> task.getTaskStatus() == TaskStatus.DELETED).collect(Collectors.toList());
-
+        List<Task> todayList = TaskFilter.filterByStatus(tasks, TaskStatus.CREATED);
+        List<Task> incompleteList =  TaskFilter.filterByStatus(tasks, TaskStatus.ARCHIVED);
+        List<Task> trashList =  TaskFilter.filterByStatus(tasks, TaskStatus.DELETED);
         // Add sections for each category with tasks
         addSectionWithTasks(context, scrollTaskView, "TODAY'S LIST", todayList, Color.BLUE, taskManager, settingManager);
         addSectionWithTasks(context, scrollTaskView, "INCOMPLETE", incompleteList, Color.RED, taskManager, settingManager);
