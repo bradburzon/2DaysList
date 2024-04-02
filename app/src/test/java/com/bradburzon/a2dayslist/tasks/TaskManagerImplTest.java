@@ -3,13 +3,22 @@ package com.bradburzon.a2dayslist.tasks;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import com.bradburzon.a2dayslist.settings.SortStrategyFactory;
 import com.bradburzon.a2dayslist.settings.SortStrategyType;
+import com.bradburzon.a2dayslist.tasks.manager.TaskManager;
+import com.bradburzon.a2dayslist.tasks.manager.TaskManagerImpl;
+import com.bradburzon.a2dayslist.tasks.storage.MapTaskStorage;
+import com.bradburzon.a2dayslist.tasks.storage.TaskStorage;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,13 +27,26 @@ public class TaskManagerImplTest {
 
     private TaskStorage storage;
     private TaskManager taskManager;
-    private static final Task TASK_1= new Task("1", "Task 1", 1, TaskStatus.CREATED);
-    private static final Task TASK_2= new Task("2", "Task 2", 2, TaskStatus.CREATED);
+    private static final Task TASK_1 = new Task("1", "Task 1", 1, TaskStatus.CREATED);
+    private static final Task TASK_2 = new Task("2", "Task 2", 2, TaskStatus.CREATED);
 
     @Before
     public void setUp() {
         storage = new MapTaskStorage(new HashMap<>());
         taskManager = new TaskManagerImpl(storage);
+    }
+
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
+
+    @Test
+    public void createLocalTaskManager_usesLocalTaskStorage() throws IOException {
+        File tempFile = folder.newFile("tempTasks.txt");
+
+        TaskManager taskManager = TaskManagerImpl.createLocalTaskManager(tempFile.getAbsolutePath());
+
+        assertNotNull(taskManager);
+        assertTrue(taskManager instanceof TaskManagerImpl);
     }
 
     @Test
@@ -102,7 +124,7 @@ public class TaskManagerImplTest {
         storage = new MapTaskStorage(startingData);
         taskManager = new TaskManagerImpl(storage);
 
-        taskManager.update("1",  new Task("1", "New Task 1", 1, TaskStatus.CREATED));
+        taskManager.update("1", new Task("1", "New Task 1", 1, TaskStatus.CREATED));
         Task actual = taskManager.getById("1");
 
         assertEquals(new Task("1", "New Task 1", 1, TaskStatus.CREATED), actual);
@@ -115,7 +137,7 @@ public class TaskManagerImplTest {
         storage = new MapTaskStorage(startingData);
         taskManager = new TaskManagerImpl(storage);
 
-        Task actual =  taskManager.delete("1");
+        Task actual = taskManager.delete("1");
 
         assertEquals(0, taskManager.listTasks().size());
         assertEquals(TASK_1, actual);
@@ -133,6 +155,6 @@ public class TaskManagerImplTest {
 
         assertEquals(2, taskManager.listTasks().size());
         assertEquals(TASK_1, list.get(0));
-        assertEquals( TASK_2, list.get(1));
+        assertEquals(TASK_2, list.get(1));
     }
 }

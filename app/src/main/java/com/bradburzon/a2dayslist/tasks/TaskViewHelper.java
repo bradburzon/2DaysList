@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bradburzon.a2dayslist.R;
 import com.bradburzon.a2dayslist.settings.SettingManager;
+import com.bradburzon.a2dayslist.tasks.manager.TaskManager;
 
 import java.util.List;
 

@@ -2,6 +2,9 @@ package com.bradburzon.a2dayslist.tasks;
 
 import static org.junit.Assert.assertEquals;
 
+import com.bradburzon.a2dayslist.tasks.storage.MapTaskStorage;
+import com.bradburzon.a2dayslist.tasks.storage.TaskStorage;
+
 import org.junit.Before;
 import org.junit.Test;
 

@@ -10,6 +10,9 @@ import java.util.Collections;
 
 import static org.mockito.Mockito.*;
 
+import com.bradburzon.a2dayslist.tasks.archiver.MidnightTaskArchivingStrategy;
+import com.bradburzon.a2dayslist.tasks.manager.TaskManager;
+
 @RunWith(MockitoJUnitRunner.class)
 public class MidnightTaskArchivingStrategyTest {
 

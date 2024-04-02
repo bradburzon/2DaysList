@@ -1,4 +1,6 @@
-package com.bradburzon.a2dayslist.tasks;
+package com.bradburzon.a2dayslist.tasks.storage;
+
+import com.bradburzon.a2dayslist.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;

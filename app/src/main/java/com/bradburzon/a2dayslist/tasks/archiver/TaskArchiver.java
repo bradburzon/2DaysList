@@ -1,4 +1,6 @@
-package com.bradburzon.a2dayslist.tasks;
+package com.bradburzon.a2dayslist.tasks.archiver;
+
+import com.bradburzon.a2dayslist.tasks.manager.TaskManager;
 
 public class TaskArchiver {
 

@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.bradburzon.a2dayslist.R;
+import com.bradburzon.a2dayslist.tasks.manager.TaskManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class TaskInputHelper {

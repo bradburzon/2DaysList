@@ -1,4 +1,10 @@
-package com.bradburzon.a2dayslist.tasks;
+package com.bradburzon.a2dayslist.tasks.manager;
+
+import com.bradburzon.a2dayslist.tasks.Task;
+import com.bradburzon.a2dayslist.tasks.TaskStatus;
+import com.bradburzon.a2dayslist.tasks.storage.LocalTaskStorage;
+import com.bradburzon.a2dayslist.tasks.storage.MapTaskStorage;
+import com.bradburzon.a2dayslist.tasks.storage.TaskStorage;
 
 import java.util.Comparator;
 import java.util.HashMap;

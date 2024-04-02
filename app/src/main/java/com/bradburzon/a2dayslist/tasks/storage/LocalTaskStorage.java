@@ -1,4 +1,7 @@
-package com.bradburzon.a2dayslist.tasks;
+package com.bradburzon.a2dayslist.tasks.storage;
+
+import com.bradburzon.a2dayslist.tasks.Task;
+import com.bradburzon.a2dayslist.tasks.TaskStatus;
 
 import java.io.File;
 import java.io.FileWriter;

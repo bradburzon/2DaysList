@@ -13,6 +13,9 @@ import com.bradburzon.a2dayslist.R;
 import com.bradburzon.a2dayslist.date.DateManager;
 import com.bradburzon.a2dayslist.settings.SettingManager;
 import com.bradburzon.a2dayslist.settings.SortStrategyType;
+import com.bradburzon.a2dayslist.tasks.archiver.MidnightTaskArchivingStrategy;
+import com.bradburzon.a2dayslist.tasks.manager.TaskManager;
+import com.bradburzon.a2dayslist.tasks.manager.TaskManagerImpl;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;

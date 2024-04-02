@@ -5,6 +5,10 @@ import org.mockito.Mockito;
 
 import static org.mockito.Mockito.verify;
 
+import com.bradburzon.a2dayslist.tasks.archiver.TaskArchiver;
+import com.bradburzon.a2dayslist.tasks.archiver.TaskArchivingStrategy;
+import com.bradburzon.a2dayslist.tasks.manager.TaskManager;
+
 public class TaskArchiverTest {
 
     @Test
