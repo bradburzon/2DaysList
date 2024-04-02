@@ -43,4 +43,13 @@ public class TaskFilterTest {
 
         assertEquals(6, actual.size());
     }
+
+    @Test
+    public void filterByStatus_ListFilledWIthTwoMatchingStatus_ReturnLength(){
+        List<Task> list = Arrays.asList( CREATED, CREATED, MODIFIED, CREATED, MODIFIED, CREATED);
+
+        List<Task> actual = TaskFilter.filterByStatus(list, TaskStatus.CREATED, TaskStatus.MODIFIED);
+
+        assertEquals(6, actual.size());
+    }
 }
