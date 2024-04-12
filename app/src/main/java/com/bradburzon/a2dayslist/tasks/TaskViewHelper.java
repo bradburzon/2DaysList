@@ -23,7 +23,7 @@ public class TaskViewHelper {
         scrollTaskView.removeAllViews();
 
         // Categories based on task status
-        List<Task> todayList = TaskFilter.filterByStatus(tasks, TaskStatus.CREATED);
+        List<Task> todayList = TaskFilter.filterByStatus(tasks, TaskStatus.CREATED, TaskStatus.COMPLETED);
         List<Task> incompleteList =  TaskFilter.filterByStatus(tasks, TaskStatus.ARCHIVED);
         List<Task> trashList =  TaskFilter.filterByStatus(tasks, TaskStatus.DELETED);
         // Add sections for each category with tasks
