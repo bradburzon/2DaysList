@@ -4,12 +4,18 @@ version: 2.1
 jobs:
   test-java:
     docker:
-      - image: cimg/openjdk:17.0
+      - image: cimg/android:2023.04
     environment:
       JVM_OPTS: -Xmx3200m
       ANDROID_HOME: /opt/android/sdk
     steps:
       - checkout
+      - run:
+          name: Verify Android SDK and Java
+          command: |
+            echo $ANDROID_HOME
+            which android || echo "Android SDK not found"
+            java -version
       - run:
           name: Calculate cache key
           command: |-
