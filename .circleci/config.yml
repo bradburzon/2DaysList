@@ -18,6 +18,9 @@ jobs:
       - restore_cache:
           key: cache-{{ checksum "/tmp/CIRCLECI_CACHE_KEY" }}
       - run:
+          name: Create local.properties
+          command: echo "sdk.dir=/opt/android/sdk" > local.properties
+      - run:
           command: chmod +x ./gradlew
       - run:
           command: ./gradlew check
