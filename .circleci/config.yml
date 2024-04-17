@@ -5,6 +5,8 @@ jobs:
   test-java:
     docker:
       - image: cimg/openjdk:17.0
+    environment:
+      JVM_OPTS: -Xmx3200m
     steps:
       - checkout
       - run:
